@@ -3,15 +3,18 @@ import {
   getSizeClass,
   getShapeClass,
   getColorWarmth,
+  getBackgroundColor,
   getTitleOpacity,
   calculateRecency,
 } from "../utils/nodeStyles.ts";
+import usernode from "../../public/usernode-removebg-preview.png";
 
 interface GraphNodeProps {
   data: NodeData;
+  isSelected: boolean;
 }
 
-export const GraphNode = ({ data }: GraphNodeProps) => {
+export const GraphNode = ({ data, isSelected }: GraphNodeProps) => {
   const isActive = !data.endDate;
   const recency = calculateRecency(data.startDate, data.endDate);
 
@@ -21,16 +24,28 @@ export const GraphNode = ({ data }: GraphNodeProps) => {
         {data.jobName}
       </h3>
 
-      <div
-        className={`
+      {data.category === "root" ? (
+        <img
+          src={usernode}
+          className={`
+          ${getSizeClass(data.category)}
           ${getShapeClass(data.category)}
-          ${getColorWarmth(recency)}
+          cursor-pointer
+          `}
+        ></img>
+      ) : (
+        <div
+          className={`
+          ${getShapeClass(data.category)}
+          ${getBackgroundColor(data.category, isSelected)}
+          ${!isSelected ? getColorWarmth(recency) : ""}
           ${isActive ? "ring-4 ring-emerald-600" : ""}
           ${getSizeClass(data.category)}
           flex items-center justify-center
-          transition-all
+          transition-all cursor-pointer
         `}
-      />
+        />
+      )}
 
       <div
         className={`bg-neutral-900 pt-1 rounded-md ${getTitleOpacity(

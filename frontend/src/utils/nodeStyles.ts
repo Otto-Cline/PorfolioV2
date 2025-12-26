@@ -2,11 +2,20 @@ import type { NodeType } from "../types/index.ts";
 
 // Size configuration by category
 const SIZE_CONFIG: Record<NodeType, string> = {
-  insig: "w-5 h-5 bg-gray-600",
-  root: "w-10 h-10 bg-yellow-500",
+  insig: "w-5 h-5",
+  root: "w-16 h-16",
   job: "w-9 h-9",
   project: "w-6 h-6",
   education: "w-8 h-8",
+};
+
+export const getBackgroundColor = (category: NodeType, isSelected: boolean): string => {
+  if (isSelected) return "bg-violet-500";
+  
+  if (category === "root") return "bg-yellow-500";
+  if (category === "insig") return "bg-gray-600";
+  
+  return "";
 };
 
 export const getSizeClass = (category: NodeType): string => {
@@ -47,7 +56,7 @@ export const getTitleOpacity = (category: NodeType): string => {
 
 // Calculate recency score (0-1) based on dates
 export const calculateRecency = (start: Date, end?: Date): number => {
-  if (!end) return 1;  // Active = most recent
+  if (!end) return 1;
   if (!start) return 0;
 
   const now = new Date();

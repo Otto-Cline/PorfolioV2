@@ -13,3 +13,8 @@ export interface NodeData {
     x: number;
     y: number;
 }
+
+export interface SidebarData {
+    isOpen: boolean;
+    nodeInfo: NodeData | null;
+}
